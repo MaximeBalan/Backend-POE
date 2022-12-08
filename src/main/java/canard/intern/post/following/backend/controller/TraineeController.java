@@ -53,8 +53,8 @@ public class TraineeController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TraineeDto create(@Valid @RequestBody TraineeDto traineeDto) {
-
-        return null;
+        var traineeDto1 = traineeService.create(traineeDto);
+        return traineeDto1;
     }
 
     @PutMapping("/{id}")
