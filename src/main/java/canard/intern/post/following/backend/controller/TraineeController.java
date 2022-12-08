@@ -53,29 +53,32 @@ public class TraineeController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TraineeDto create(@Valid @RequestBody TraineeDto traineeDto) {
-        var traineeDto1 = traineeService.create(traineeDto);
-        return traineeDto1;
+        return traineeService.create(traineeDto);
     }
 
     @PutMapping("/{id}")
-    public TraineeDto update(
-            @PathVariable("id") int id,
-            @Valid @RequestBody TraineeDto traineeDto
-    ){
+    public TraineeDto update(@PathVariable("id") int id, @Valid @RequestBody TraineeDto traineeDto )
+    {
+        var optTraineeDto = traineeService.update(id, traineeDto);
         if (Objects.nonNull(traineeDto.getId()) && (traineeDto.getId() != id)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     String.format("Id <%d> from path does not match id <%d> from body",
                             id, traineeDto.getId()));
             // NB:you can use also:  MessageFormat.format or StringBuilder
         }
-        traineeDto.setId(id);
-        return traineeDto;
+
+        return optTraineeDto.get();
     }
 
     //NB: other choice, return Dto removed if found
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") int id){
-        // TODO: remove Trainee with this id
+    public boolean delete(@PathVariable("id") int id){
+        var optTraineeDto = traineeService.delete(id);
+        if(!optTraineeDto){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return optTraineeDto;
     }
+
 }
