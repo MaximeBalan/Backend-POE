@@ -66,19 +66,27 @@ public class TraineeController {
                             id, traineeDto.getId()));
             // NB:you can use also:  MessageFormat.format or StringBuilder
         }
-
+        if(optTraineeDto.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    String.format("Id not found",
+                            id, traineeDto.getId()));
+        }
         return optTraineeDto.get();
     }
 
-    //NB: other choice, return Dto removed if found
+
+
+   //NB: other choice, return Dto removed if found
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean delete(@PathVariable("id") int id){
         var optTraineeDto = traineeService.delete(id);
         if(!optTraineeDto){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }else{
+            return true;
         }
-        return optTraineeDto;
+
     }
 
 }
