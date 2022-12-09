@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/trainees")
@@ -27,9 +28,7 @@ public class TraineeController {
      * @return all trainees
      */
     @GetMapping
-    public List<TraineeDto> getAll(){
-       return traineeService.getAll();
-    }
+    public List<TraineeDto> getAll(){return traineeService.getAll();}
 
     /**
      * GET /api/trainees/{id}
@@ -50,6 +49,12 @@ public class TraineeController {
         return optTraineeDto.get();
     }
 
+    @GetMapping("/search/byLastname")
+    public Set<TraineeDto> getByLastnameContaining(@RequestParam("ln") String lastNamePartial){
+        //lastNamePartial = "Bond";
+        return traineeService.getByLastnameContaining(lastNamePartial);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public TraineeDto create(@Valid @RequestBody TraineeDto traineeDto) {
@@ -59,17 +64,17 @@ public class TraineeController {
     @PutMapping("/{id}")
     public TraineeDto update(@PathVariable("id") int id, @Valid @RequestBody TraineeDto traineeDto )
     {
-        var optTraineeDto = traineeService.update(id, traineeDto);
         if (Objects.nonNull(traineeDto.getId()) && (traineeDto.getId() != id)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     String.format("Id <%d> from path does not match id <%d> from body",
                             id, traineeDto.getId()));
             // NB:you can use also:  MessageFormat.format or StringBuilder
         }
+        var optTraineeDto = traineeService.update(id, traineeDto);
         if(optTraineeDto.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    String.format("Id not found",
-                            id, traineeDto.getId()));
+                    String.format("No trainee found with id <%d>",
+                            id));
         }
         return optTraineeDto.get();
     }
@@ -79,14 +84,12 @@ public class TraineeController {
    //NB: other choice, return Dto removed if found
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean delete(@PathVariable("id") int id){
-        var optTraineeDto = traineeService.delete(id);
-        if(!optTraineeDto){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }else{
-            return true;
+    public void delete(@PathVariable("id") int id){
+        var deleted = traineeService.delete(id);
+        if(!deleted){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    String.format("No trainee found with id <%d>",
+                    id));
         }
-
     }
-
 }
