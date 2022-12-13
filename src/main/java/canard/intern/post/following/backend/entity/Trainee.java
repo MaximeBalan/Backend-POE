@@ -1,27 +1,41 @@
 package canard.intern.post.following.backend.entity;
 
 import canard.intern.post.following.backend.enums.Gender;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.time.LocalDate;
+import lombok.*;
 
+import javax.persistence.*;
+import java.time.LocalDate;
+//pour rédiger les tests
+@ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+//pour lombok
+@Getter @Setter
 @Entity
+//pour personnaliser les tables
+@Table(name = "trainees")
 public class Trainee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //pour gérer automatiquement les id
     private Integer id;
 
+    @Column(length = 50, nullable = false)
     private String lastname;
 
+    @Column(length = 50, nullable = false)
     private String firstname;
 
+    @Enumerated(EnumType.STRING)
+    @Column(length = 1)
     private Gender gender;
 
+    @Column(nullable = false)
     private LocalDate birthdate;
 
+    @Column(length = 15)
     private String phoneNumber;
 
+    @Column(length = 100, nullable = false, unique = true)
     private String email;
 }
