@@ -1,11 +1,12 @@
 package canard.intern.post.following.backend.service.impl;
 
 import canard.intern.post.following.backend.dto.TraineeDto;
+import canard.intern.post.following.backend.entity.Trainee;
 import canard.intern.post.following.backend.repository.TraineeRepository;
 import canard.intern.post.following.backend.service.TraineeService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -15,17 +16,14 @@ public class TraineeServiceJpa implements TraineeService {
 
     @Autowired
     private TraineeRepository traineeRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public List<TraineeDto> getAll() {
-        var traineeEntities =  traineeRepository.findAll();
-        //TODO : use modelmapper
-        return traineeEntities.stream()
-                .map(te -> TraineeDto.builder()
-                        .id(te.getId())
-                        .lastname(te.getLastname())
-                        //...
-                        .build())
+        return traineeRepository.findAll()
+                .stream()
+                .map(te -> modelMapper.map(te, TraineeDto.class))
                 .toList();
     }
 
