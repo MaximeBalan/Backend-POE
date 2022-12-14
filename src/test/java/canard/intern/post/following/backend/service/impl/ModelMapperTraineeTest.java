@@ -6,6 +6,8 @@ import canard.intern.post.following.backend.enums.Gender;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Configuration;
+
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
