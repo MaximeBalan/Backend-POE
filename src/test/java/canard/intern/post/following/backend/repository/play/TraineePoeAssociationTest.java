@@ -1,23 +1,21 @@
-package canard.intern.post.following.backend.repository;
+package canard.intern.post.following.backend.repository.play;
 
-import canard.intern.post.following.backend.entity.Poe;
 import canard.intern.post.following.backend.entity.Trainee;
+import canard.intern.post.following.backend.repository.PoeRepository;
+import canard.intern.post.following.backend.repository.TraineeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.EntityManager;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 //this is not a unit test
 //goal: how to deal with association Trainee => Poe
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE) // keep database from application
-class TraineeRepositoryAssociationTest {
+class TraineePoeAssociationTest {
 
     @Autowired
     TraineeRepository traineeRepository;
@@ -57,6 +55,18 @@ class TraineeRepositoryAssociationTest {
                 .getResultList();
         for(var trainee: trainees){
             System.out.println("\t- " +trainee);
+        }
+    }
+
+    @Test
+    void poeWithTraineesJpaRepository() {
+        int poeId = 1;
+        var poe = poeRepository.findById(poeId).get();
+        System.out.println(poe);
+        // how to fetch trainees from this poe ?
+        var trainees = traineeRepository.findByPoeId(poeId);
+        for (var trainee: trainees) {
+            System.out.println("\t- " + trainee);
         }
     }
 }

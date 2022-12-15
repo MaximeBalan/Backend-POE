@@ -34,7 +34,7 @@ public class Poe {
     private LocalDate endDate;
 
     @Column(name= "poe_type",length = 10, nullable = false)
-    private String poeType;
+     private String poeType;
 
     //@OneToMany
     //private Set<Trainee> trainees;
