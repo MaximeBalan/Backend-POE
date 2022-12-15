@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
+
 //pour rédiger les tests
 @ToString
 @Builder
@@ -33,6 +35,9 @@ public class Poe {
 
     @Column(name= "poe_type",length = 10, nullable = false)
     private String poeType;
+
+    //@OneToMany
+    //private Set<Trainee> trainees;
 }
 
 

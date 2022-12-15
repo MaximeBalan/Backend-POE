@@ -6,7 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 //pour rédiger les tests
-@ToString
+@ToString(exclude = "poe")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,4 +38,13 @@ public class Trainee {
 
     @Column(length = 100, nullable = false, unique = true)
     private String email;
+
+    //UML
+    //@Transient // do not persist this attribute
+    @ManyToOne//on va vers une poe au max
+        //(fetch = FetchType.LAZY) // on demand (default Eager i.e. always)
+    // @JoinColumn(name="ip_poe") // customize Foreign Key column
+    private Poe poe;
+
+
 }
