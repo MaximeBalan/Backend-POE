@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -23,8 +24,8 @@ public class JpaRepositoryQueries {
     private PoeRepository poeRepository;
 
     private static void displayCollection(Collection<?> collection) {
-        for (var t:collection) {
-            System.out.println("\t- " + t);
+        for (var e:collection) {
+            System.out.println("\t- " + e);
         }
     }
 
@@ -62,7 +63,7 @@ public class JpaRepositoryQueries {
     @Test
     void poeByTitleIgnoreCase() {
         String title = "java fullstack";
-        var poe = poeRepository.findByTitleIgnoreCase(title);
+        var poe = poeRepository.findByTitleIgnoreCaseOrderByBeginDate(title);
         displayCollection(poe);
     }
 
@@ -83,5 +84,38 @@ public class JpaRepositoryQueries {
         displayCollection(poe);
     }
 
+    @Test
+    void poeStartingYear_JpqlQuery(){
+        int year = 2022;
+        var poe = poeRepository.findByBeginDateInYear(year);
+        displayCollection(poe);
+    }
+
+    @Test
+    void poeStartingYearSorted() {
+        int year = 2022;
+        var poe = poeRepository.findByBeginDateBetween(
+                LocalDate.of(year, 1, 1),
+                LocalDate.of(year, 12, 1),
+                Sort.by("beginDate")
+        );
+        displayCollection(poe);
+    }
+
+    // Sort
+    @Test
+    void poeSorted(){
+        var poesSortedByDateDesc = poeRepository.findAll(
+                Sort.by("beginDate").descending()
+        );
+        displayCollection(poesSortedByDateDesc);
+
+        var poeSortedByTitleDate = poeRepository.findAll(
+//                Sort.by("title")
+//                        .and(Sort.by("beginDate"))
+                Sort.by("title", "beginDate")
+        );
+        displayCollection(poeSortedByTitleDate);
+    }
 
 }
