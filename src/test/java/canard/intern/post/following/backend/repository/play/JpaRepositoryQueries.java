@@ -105,10 +105,10 @@ public class JpaRepositoryQueries {
     // Sort
     @Test
     void poeSorted(){
-        var poesSortedByDateDesc = poeRepository.findAll(
+        var poeSortedByDateDesc = poeRepository.findAll(
                 Sort.by("beginDate").descending()
         );
-        displayCollection(poesSortedByDateDesc);
+        displayCollection(poeSortedByDateDesc);
 
         var poeSortedByTitleDate = poeRepository.findAll(
 //                Sort.by("title")

@@ -7,6 +7,7 @@ import canard.intern.post.following.backend.repository.TraineeRepository;
 import canard.intern.post.following.backend.service.TraineeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -82,36 +83,37 @@ public class TraineeServiceJpa implements TraineeService {
 
     @Override
     public Optional<TraineeDto> update(int id, TraineeDto traineeDto) {
+        // in case traineeDto has no id
         traineeDto.setId(id);
-        var optTraineeDb = traineeRepository.findById(id) ;
         try {
-            if (optTraineeDb.isPresent()) {
-                var traineeDb= optTraineeDb.get();
-                modelMapper.map(traineeDto, traineeDb); // change traineeDb in hibernate cache
-                traineeRepository.flush(); // synchro et force l'update en sql
-                return Optional.of(modelMapper.map(traineeDb, TraineeDto.class));
-            }else{
-                return Optional.empty();
-            }
-        }catch(Exception e){
-            throw new UpdateException("trainee couldn't be updated",e);
+            return traineeRepository.findById(id)
+                    .map(te -> {
+                        // update in DB if found
+                        // 1 - overwrite entity fields with dto fields
+                        modelMapper.map(traineeDto, te);
+                        // 2 - synchronize with DB
+                        traineeRepository.flush(); // force SQL UPDATE here
+                        // 3 - transform back modified entity in  DTO
+                        return modelMapper.map(te, TraineeDto.class);
+                    });
+        } catch (DataIntegrityViolationException ex) {
+            throw new UpdateException("Trainee cannot be saved", ex);
         }
-
-
     }
 
     @Override
     public boolean delete(int id) {
         try {
-            if (traineeRepository.findById(id).isPresent()) {
-                traineeRepository.deleteById(id);
-                return true;
-            } else {
-                return false;
-            }
-        }catch(Exception e){// autres problèmes
-            throw (new UpdateException("Trainee couldn't be deleted",e));
-            //return false;
+            return traineeRepository.findById(id)
+                    .map(te -> {
+                        // delete in DB if found
+                        traineeRepository.delete(te);
+                        traineeRepository.flush(); // force SQL delete here
+                        return true;
+                    })
+                    .orElse(false);
+        } catch (DataIntegrityViolationException ex) {
+            throw new UpdateException("Trainee cannot be saved", ex);
         }
     }
 }
