@@ -1,8 +1,10 @@
 package canard.intern.post.following.backend.service.impl;
 
+import canard.intern.post.following.backend.dto.TraineeDetailDto;
 import canard.intern.post.following.backend.dto.TraineeDto;
 import canard.intern.post.following.backend.entity.Trainee;
 import canard.intern.post.following.backend.error.UpdateException;
+import canard.intern.post.following.backend.repository.PoeRepository;
 import canard.intern.post.following.backend.repository.TraineeRepository;
 import canard.intern.post.following.backend.service.TraineeService;
 import org.modelmapper.ModelMapper;
@@ -22,30 +24,22 @@ public class TraineeServiceJpa implements TraineeService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private PoeRepository poeRepository;
+
 
     public List<TraineeDto> getAll() {
-//        return traineeRepository.findAll().stream().map(
-//                (t)->TraineeDto.builder()
-//                        .id(t.getId())
-//                        .lastname(t.getLastname())
-//                        .email(t.getEmail())
-//                        .firstname(t.getFirstname())
-//                        .gender(t.getGender())
-//                        .birthdate(t.getBirthdate())
-//                        .phoneNumber(t.getPhoneNumber())
-//                        .build()
-//
-//        ).toList();
+
         return traineeRepository.findAll().stream().map((t)->modelMapper.map(t,TraineeDto.class)).toList();
     }
 
     @Override
-    public Optional<TraineeDto> getById(int id) {
+    public Optional<TraineeDetailDto> getById(int id) {
         // on récup la un optional de Trainee
 
 
         return traineeRepository.findById(id)
-                .map((te)-> modelMapper.map(te, TraineeDto.class));//transfo que si y'a kkchose dans la boite
+                .map((te)-> modelMapper.map(te, TraineeDetailDto.class));//transfo que si y'a kkchose dans la boite
 
 
 
@@ -115,5 +109,17 @@ public class TraineeServiceJpa implements TraineeService {
         } catch (DataIntegrityViolationException ex) {
             throw new UpdateException("Trainee cannot be saved", ex);
         }
+    }
+
+    @Override
+    public Optional<TraineeDetailDto> setPoe(int idTrainee, int idPoe) {
+        return  traineeRepository.findById(idTrainee)
+                .flatMap(traineeEntity -> poeRepository.findById(idPoe)
+                        .map(poeEntity -> {
+                            traineeEntity.setPoe(poeEntity);
+                            traineeRepository.flush(); // force UPDATE here
+                            return modelMapper.map(traineeEntity, TraineeDetailDto.class);
+                        })
+                );
     }
 }

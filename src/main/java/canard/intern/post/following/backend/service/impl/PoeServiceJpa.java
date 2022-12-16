@@ -10,6 +10,7 @@ import canard.intern.post.following.backend.repository.TraineeRepository;
 import canard.intern.post.following.backend.service.PoeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -94,7 +95,7 @@ public class PoeServiceJpa implements PoeService {
             } else {
                 return Optional.empty();
             }
-        } catch (Exception e) {
+        } catch (DataIntegrityViolationException e) {
             throw new UpdateException("trainee couldn't be updated", e);
         }
     }
@@ -108,7 +109,7 @@ public class PoeServiceJpa implements PoeService {
             } else {
                 return false;
             }
-        }catch(Exception e){// autres problèmes
+        }catch(DataIntegrityViolationException e){// autres problèmes
             throw (new UpdateException("Trainee couldn't be deleted",e));
             //return false;
         }

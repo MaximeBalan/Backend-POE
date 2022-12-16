@@ -1,5 +1,6 @@
 package canard.intern.post.following.backend.controller;
 
+import canard.intern.post.following.backend.dto.TraineeDetailDto;
 import canard.intern.post.following.backend.dto.TraineeDto;
 import canard.intern.post.following.backend.enums.Gender;
 import canard.intern.post.following.backend.service.TraineeService;
@@ -40,7 +41,7 @@ public class TraineeController {
      * @return trainee with this id if found
      */
     @GetMapping("/{id}")
-    public TraineeDto getById(@PathVariable("id") int id){
+    public TraineeDetailDto getById(@PathVariable("id") int id){
         var optTraineeDto =  traineeService.getById(id);
         if (optTraineeDto.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
@@ -80,6 +81,15 @@ public class TraineeController {
     }
 
 
+    @PatchMapping("/{idTrainee}/setPoe/{idPoe}")
+    public TraineeDetailDto setPoe(@PathVariable("idTrainee") int idTrainee,
+                       @PathVariable("idPoe") int idPoe)
+        {
+            return traineeService.setPoe(idTrainee, idPoe)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                            String.format("No trainee found with id <%d> or POE not found with id <%d>", idTrainee, idPoe )));
+        }
+    // TODO: setNullPoe with a PATCH
 
    //NB: other choice, return Dto removed if found
     @DeleteMapping("/{id}")
