@@ -1,12 +1,11 @@
 package canard.intern.post.following.backend.service;
 
+import canard.intern.post.following.backend.dto.PoeDetailDto;
 import canard.intern.post.following.backend.dto.PoeDto;
-import canard.intern.post.following.backend.dto.TraineeDto;
 import canard.intern.post.following.backend.error.UpdateException;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public interface PoeService {
     /**
@@ -21,8 +20,12 @@ public interface PoeService {
      * @return optional with poe found
      * or optional empty if not exists
      */
-    Optional<PoeDto> getById(int id);
+    Optional<PoeDetailDto> getById(int id);
 
+
+    List<PoeDto> getByTitle(String title);
+
+    List<PoeDto> getByStartingYear(int year);
 
     /**
      * create poe and generate an id

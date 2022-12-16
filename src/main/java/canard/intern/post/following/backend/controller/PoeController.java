@@ -1,4 +1,5 @@
 package canard.intern.post.following.backend.controller;
+import canard.intern.post.following.backend.dto.PoeDetailDto;
 import canard.intern.post.following.backend.dto.PoeDto;
 import canard.intern.post.following.backend.service.PoeService;
 
@@ -36,7 +37,7 @@ public class PoeController {
      * @return poe with this id if found
      */
     @GetMapping("/{id}")
-    public PoeDto getById(@PathVariable("id") int id){
+    public PoeDetailDto getById(@PathVariable("id") int id){
         var optPoeDto =  poeService.getById(id);
         if (optPoeDto.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,

@@ -1,9 +1,12 @@
 package canard.intern.post.following.backend.service.impl;
 
+import canard.intern.post.following.backend.dto.PoeDetailDto;
 import canard.intern.post.following.backend.dto.PoeDto;
+import canard.intern.post.following.backend.dto.TraineeDto;
 import canard.intern.post.following.backend.entity.Poe;
 import canard.intern.post.following.backend.error.UpdateException;
 import canard.intern.post.following.backend.repository.PoeRepository;
+import canard.intern.post.following.backend.repository.TraineeRepository;
 import canard.intern.post.following.backend.service.PoeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 
 @Service
@@ -21,45 +23,48 @@ public class PoeServiceJpa implements PoeService {
     private PoeRepository poeRepository;
 
     @Autowired
+    private TraineeRepository traineeRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
 
 
 
     @Override
     public List<PoeDto> getAll() {
-//        return traineeRepository.findAll().stream().map(
-//                (t)->TraineeDto.builder()
-//                        .id(t.getId())
-//                        .lastname(t.getLastname())
-//                        .email(t.getEmail())
-//                        .firstname(t.getFirstname())
-//                        .gender(t.getGender())
-//                        .birthdate(t.getBirthdate())
-//                        .phoneNumber(t.getPhoneNumber())
-//                        .build()
-//
-//        ).toList();
-        return poeRepository.findAll().stream().map((t)->modelMapper.map(t,PoeDto.class)).toList();
+        return poeRepository.findAll()
+                .stream()
+                .map((t)->modelMapper.map(t,PoeDto.class))
+                .toList();
     }
 
     @Override
-    public Optional<PoeDto> getById(int id) {
+    public Optional<PoeDetailDto> getById(int id) {
         var optPoe = poeRepository.findById(id);
-        PoeDto poeDto ;
         if (optPoe.isPresent()){
-            poeDto= modelMapper.map(optPoe.get(),PoeDto.class);
-            return Optional.of(poeDto);
+            var trainees = traineeRepository.findByPoeId(id)
+                    .stream()
+                    .map(traineeEntity -> modelMapper.map(traineeEntity, TraineeDto.class))
+                    .toList();
+            var poeDDto= modelMapper.map(optPoe.get(),PoeDetailDto.class);
+            poeDDto.setTrainees(trainees);
+            return Optional.of(poeDDto);
         }
         else{
             return Optional.empty();
         }
-
-        //        return traineeRepository.findById(id)
-        //                .map((te)-> modelMapper.map(te,
-        //                TraineeDto.class));//
-        //                transfo que si y'a kkchose dans la boite
+    }
+    @Override
+    public List<PoeDto> getByTitle(String title) {
+        // TODO
+        return List.of();
     }
 
+    @Override
+    public List<PoeDto> getByStartingYear(int year) {
+        // TODO
+        return List.of();
+    }
 
     @Override
     public PoeDto create(PoeDto poeDto) {
