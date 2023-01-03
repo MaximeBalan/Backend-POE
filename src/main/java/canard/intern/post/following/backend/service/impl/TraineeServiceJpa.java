@@ -30,7 +30,10 @@ public class TraineeServiceJpa implements TraineeService {
 
     public List<TraineeDto> getAll() {
 
-        return traineeRepository.findAll().stream().map((t)->modelMapper.map(t,TraineeDto.class)).toList();
+        return traineeRepository.findAll()
+                .stream()
+                .map((t)->modelMapper.map(t,TraineeDto.class))
+                .toList();
     }
 
     @Override
