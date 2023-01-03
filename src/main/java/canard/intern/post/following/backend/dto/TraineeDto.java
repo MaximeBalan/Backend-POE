@@ -1,16 +1,19 @@
 package canard.intern.post.following.backend.dto;
 
 import canard.intern.post.following.backend.enums.Gender;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.ToString;
-import validator.DateLessThan;
+import canard.intern.post.following.backend.validator.DateLessThan;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-import javax.validation.Constraint;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 
-@Builder
+//@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class TraineeDto {
     private Integer id;
@@ -24,7 +27,6 @@ public class TraineeDto {
     private Gender gender;
 
     @NotNull
-    //@Past // TODO: replace with custom current date - 18 year
     @DateLessThan
     private LocalDate birthdate;
 
