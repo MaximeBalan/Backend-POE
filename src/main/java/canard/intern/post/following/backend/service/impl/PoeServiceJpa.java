@@ -8,10 +8,13 @@ import canard.intern.post.following.backend.error.UpdateException;
 import canard.intern.post.following.backend.repository.PoeRepository;
 import canard.intern.post.following.backend.repository.TraineeRepository;
 import canard.intern.post.following.backend.service.PoeService;
+import canard.intern.post.following.backend.service.TraineeService;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +31,9 @@ public class PoeServiceJpa implements PoeService {
 
     @Autowired
     private ModelMapper modelMapper;
-
+    
+    @Autowired
+    private TraineeService traineeService;
 
 
     @Override
@@ -100,14 +105,21 @@ public class PoeServiceJpa implements PoeService {
         }
     }
 
+    @Transactional
     @Override
     public boolean delete(int id) {
         try {
             if (poeRepository.findById(id).isPresent()) {
+            	traineeRepository.findByPoeId(id)
+            			.stream()
+            			.forEach((t)->t.setPoe(null));
+            	poeRepository.flush();
+            	//find trainees of this poes
+            	//then setPoe(null) for each one
                 poeRepository.deleteById(id);
                 return true;
             } else {
-                return false;
+                return false; 
             }
         }catch(DataIntegrityViolationException e){// autres problèmes
             throw (new UpdateException("Trainee couldn't be deleted",e));

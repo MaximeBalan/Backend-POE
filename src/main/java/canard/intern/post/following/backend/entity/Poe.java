@@ -1,6 +1,6 @@
 package canard.intern.post.following.backend.entity;
 
-import canard.intern.post.following.backend.enums.Gender;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,7 +17,7 @@ import java.util.Set;
 @Setter
 @Entity
 //pour personnaliser les tables
-@Table(name = "poe")
+@Table(name = "poes")
 public class Poe {
 
     @Id

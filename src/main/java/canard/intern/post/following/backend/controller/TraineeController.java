@@ -19,6 +19,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/trainees")
+
 public class TraineeController {
 
     @Autowired

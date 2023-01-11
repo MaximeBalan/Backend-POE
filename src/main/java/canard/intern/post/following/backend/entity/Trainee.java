@@ -41,7 +41,8 @@ public class Trainee {
 
     //UML
     //@Transient // do not persist this attribute
-    @ManyToOne//on va vers une poe au max
+    @ManyToOne()//on va vers une poe au max
+    
         //(fetch = FetchType.LAZY) // on demand (default Eager i.e. always)
     // @JoinColumn(name="ip_poe") // customize Foreign Key column
     private Poe poe;

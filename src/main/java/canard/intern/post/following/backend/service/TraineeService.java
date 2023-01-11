@@ -66,4 +66,5 @@ public interface TraineeService {
      * else optional empty
      */
     Optional<TraineeDetailDto> setPoe(int idTrainee, int idPoe);
+  
 }
