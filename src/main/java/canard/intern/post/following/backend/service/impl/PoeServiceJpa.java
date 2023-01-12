@@ -110,8 +110,7 @@ public class PoeServiceJpa implements PoeService {
                 return false;
             }
         }catch(DataIntegrityViolationException e){// autres problèmes
-            throw (new UpdateException("Trainee couldn't be deleted",e));
-            //return false;
+            throw (new UpdateException("Poe couldn't be deleted",e));
         }
     }
 }

@@ -44,7 +44,7 @@ public class Trainee {
     @ManyToOne//on va vers une poe au max
         //(fetch = FetchType.LAZY) // on demand (default Eager i.e. always)
     // @JoinColumn(name="ip_poe") // customize Foreign Key column
-    private Poe poe;
+    private Poe poe; // référence objet
 
 
 }
