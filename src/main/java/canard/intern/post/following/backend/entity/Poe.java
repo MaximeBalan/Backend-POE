@@ -1,6 +1,7 @@
 package canard.intern.post.following.backend.entity;
 
 import canard.intern.post.following.backend.enums.Gender;
+import canard.intern.post.following.backend.enums.PoeType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,8 +34,9 @@ public class Poe {
     @Column(name= "end_date", nullable = false)
     private LocalDate endDate;
 
+    @Enumerated(EnumType.STRING)
     @Column(name= "poe_type",length = 10, nullable = false)
-     private String poeType;
+     private PoeType poeType;
 
     //@OneToMany
     //private Set<Trainee> trainees;
