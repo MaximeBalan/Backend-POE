@@ -3,6 +3,7 @@ package canard.intern.post.following.backend.repository;
 import canard.intern.post.following.backend.dto.IPoeTypeCountPoeDto;
 import canard.intern.post.following.backend.dto.PoeTypeCountPoeDto;
 import canard.intern.post.following.backend.entity.Poe;
+import canard.intern.post.following.backend.enums.PoeType;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public interface PoeRepository extends JpaRepository<Poe,Integer> {
 
-    List<Poe> findByPoeType(String poeType);
+    List<Poe> findByPoeType(PoeType poeType);
 
     List<Poe> findByTitleIgnoreCaseOrderByBeginDate(String title);
 

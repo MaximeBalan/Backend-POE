@@ -21,6 +21,8 @@ public interface PoeService {
      * or optional empty if not exists
      */
     Optional<PoeDetailDto> getById(int id);
+    
+    List<PoeDto> getPoeType(int id);
 
 
     List<PoeDto> getByTitle(String title);

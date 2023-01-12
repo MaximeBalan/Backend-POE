@@ -113,4 +113,10 @@ public class PoeServiceJpa implements PoeService {
             throw (new UpdateException("Poe couldn't be deleted",e));
         }
     }
+
+	@Override
+	public List<PoeDto> getPoeType(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
