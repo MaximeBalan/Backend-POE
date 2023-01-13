@@ -1,6 +1,7 @@
 package canard.intern.post.following.backend.controller;
 
 import canard.intern.post.following.backend.controller.fixture.TraineeJsonProvider;
+import canard.intern.post.following.backend.dto.TraineeDetailDto;
 import canard.intern.post.following.backend.dto.TraineeDto;
 import canard.intern.post.following.backend.enums.Gender;
 import canard.intern.post.following.backend.error.UpdateException;
@@ -176,7 +177,7 @@ class TraineeControllerTest {
         int id = 2;
 
         // prepare mock response of trainee service
-        var traineeDto = TraineeDto.builder()
+        var traineeDto = TraineeDetailDto.builder()
                 .id(id)
                 .lastname("Bond")
                 .firstname("James")
@@ -226,7 +227,7 @@ class TraineeControllerTest {
     @Test
     void getById_KO_xmlNotAcceptable() throws Exception {
         int id = 2;
-        var traineeDto = TraineeDto.builder()
+        var traineeDto = TraineeDetailDto.builder()
                 .id(id)
                 .lastname("Bond")
                 .firstname("James")
