@@ -19,6 +19,9 @@ public interface PoeRepository extends JpaRepository<Poe,Integer> {
     List<Poe> findByTitleIgnoreCaseOrderByBeginDate(String title);
 
     List<Poe> findByTitle(String title);
+    
+    @Query("SELECT p FROM Poe p WHERE p.poe_type = :type")
+    Optional<Poe> findByPoeType(PoeType type);
 
     List<Poe> findByBeginDateBetween(LocalDate date1, LocalDate date2);
     List<Poe> findByBeginDateBetween(LocalDate date1, LocalDate date2, Sort sort);
@@ -36,14 +39,14 @@ public interface PoeRepository extends JpaRepository<Poe,Integer> {
     // NB: RIGHT JOIN here because association is unidirectional
     // in the Java Model: Trainee => Poe
     @Query("SELECT p.id as id, p.title as title, " +
-            "   p.beginDate as beginDate, p.type as type, " +
+            "   p.beginDate as beginDate, p.type as poe_type, " +
             "   COUNT(t.id) as traineeCount " +
             "FROM Trainee t RIGHT OUTER JOIN t.poe p " +
             "GROUP BY p " +
             "ORDER BY traineeCount")
     List<Tuple> countTraineesByPoe();
+
     
-    
-    Optional<Poe> findByPoeType(PoeType type);
+
 
 }
