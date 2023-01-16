@@ -2,8 +2,10 @@ package canard.intern.post.following.backend.service.impl;
 
 import canard.intern.post.following.backend.dto.PoeDetailDto;
 import canard.intern.post.following.backend.dto.PoeDto;
+import canard.intern.post.following.backend.dto.TraineeDetailDto;
 import canard.intern.post.following.backend.dto.TraineeDto;
 import canard.intern.post.following.backend.entity.Poe;
+import canard.intern.post.following.backend.enums.PoeType;
 import canard.intern.post.following.backend.error.UpdateException;
 import canard.intern.post.following.backend.repository.PoeRepository;
 import canard.intern.post.following.backend.repository.TraineeRepository;
@@ -55,6 +57,25 @@ public class PoeServiceJpa implements PoeService {
             return Optional.empty();
         }
     }
+    
+    @Override
+    public Optional<PoeDetailDto> getByType(PoeType type) {
+    	var optPoe = poeRepository.findByPoeType(type);
+    	if (optPoe.isEmpty()) {		
+    		var trainees = traineeRepository.findByPoeType(type)
+    			.stream()
+    			.map(traineeEntity -> modelMapper.map(traineeEntity, TraineeDto.class))
+    			.toList();
+    		var poeDDto = modelMapper.map(optPoe.get(),PoeDetailDto.class);
+    		poeDDto.setTrainees(trainees);
+    		return Optional.of(poeDDto);
+    	}
+    	else {
+    		return Optional.empty();
+    	}
+    }
+
+        
     @Override
     public List<PoeDto> getByTitle(String title) {
         // TODO
@@ -113,10 +134,4 @@ public class PoeServiceJpa implements PoeService {
             throw (new UpdateException("Poe couldn't be deleted",e));
         }
     }
-
-	@Override
-	public List<PoeDto> getPoeType(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

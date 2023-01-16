@@ -12,10 +12,9 @@ import org.springframework.data.jpa.repository.Query;
 import javax.persistence.Tuple;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface PoeRepository extends JpaRepository<Poe,Integer> {
-
-    List<Poe> findByPoeType(PoeType poeType);
 
     List<Poe> findByTitleIgnoreCaseOrderByBeginDate(String title);
 
@@ -27,21 +26,24 @@ public interface PoeRepository extends JpaRepository<Poe,Integer> {
     @Query("SELECT p FROM Poe p WHERE EXTRACT(YEAR FROM p.beginDate) = :year ORDER BY p.beginDate") //:year pour le param int year de la fonction
     List<Poe>findByBeginDateInYear(int year);
 
-    @Query("SELECT p.poeType, COUNT(p) as countPoe FROM Poe p GROUP BY p.poeType")
+    @Query("SELECT p.type, COUNT(p) as countPoe FROM Poe p GROUP BY p.type")
     List<PoeTypeCountPoeDto> countPoeByPoeType();
 
-    @Query("SELECT p.poeType as poeType, COUNT(p) as countPoe" +
-            " FROM Poe p GROUP BY p.poeType")
+    @Query("SELECT p.type as type, COUNT(p) as countPoe" +
+            " FROM Poe p GROUP BY p.type")
     List<IPoeTypeCountPoeDto> countPoeByPoeType2();
 
     // NB: RIGHT JOIN here because association is unidirectional
     // in the Java Model: Trainee => Poe
     @Query("SELECT p.id as id, p.title as title, " +
-            "   p.beginDate as beginDate, p.poeType as poeType, " +
+            "   p.beginDate as beginDate, p.type as type, " +
             "   COUNT(t.id) as traineeCount " +
             "FROM Trainee t RIGHT OUTER JOIN t.poe p " +
             "GROUP BY p " +
             "ORDER BY traineeCount")
     List<Tuple> countTraineesByPoe();
+    
+    
+    Optional<Poe> findByPoeType(PoeType type);
 
 }

@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 //pour rédiger les tests
@@ -36,7 +37,7 @@ public class Poe {
 
     @Enumerated(EnumType.STRING)
     @Column(name= "poe_type",length = 10, nullable = false)
-     private PoeType poeType;
+     private PoeType type;
 
     //@OneToMany
     //private Set<Trainee> trainees;

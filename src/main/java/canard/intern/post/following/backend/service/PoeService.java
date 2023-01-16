@@ -2,6 +2,7 @@ package canard.intern.post.following.backend.service;
 
 import canard.intern.post.following.backend.dto.PoeDetailDto;
 import canard.intern.post.following.backend.dto.PoeDto;
+import canard.intern.post.following.backend.enums.PoeType;
 import canard.intern.post.following.backend.error.UpdateException;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public interface PoeService {
      */
     Optional<PoeDetailDto> getById(int id);
     
-    List<PoeDto> getPoeType(int id);
+    Optional<PoeDetailDto> getByType(PoeType type);
 
 
     List<PoeDto> getByTitle(String title);

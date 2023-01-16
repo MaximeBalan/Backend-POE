@@ -1,6 +1,7 @@
 package canard.intern.post.following.backend.controller;
 import canard.intern.post.following.backend.dto.PoeDetailDto;
 import canard.intern.post.following.backend.dto.PoeDto;
+import canard.intern.post.following.backend.enums.PoeType;
 import canard.intern.post.following.backend.service.PoeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,16 @@ public class PoeController {
         if (optPoeDto.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     String.format("No poe found with id <%d>", id));
+        }
+        return optPoeDto.get();
+    }
+    
+    @GetMapping("/{poeType}")
+    public PoeDetailDto getByPoeType(@PathVariable("poeType") PoeType poeType){
+        var optPoeDto =  poeService.getByType(poeType);
+        if (optPoeDto.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    String.format("No poe type found with type <%d>", poeType));
         }
         return optPoeDto.get();
     }
