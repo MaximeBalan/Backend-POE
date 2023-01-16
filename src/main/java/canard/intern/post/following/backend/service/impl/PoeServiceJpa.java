@@ -58,21 +58,12 @@ public class PoeServiceJpa implements PoeService {
         }
     }
     
-    @Override
-    public Optional<PoeDetailDto> getByType(PoeType type) {
-    	var optPoe = poeRepository.findByPoeType(type);
-    	if (optPoe.isEmpty()) {		
-    		var trainees = traineeRepository.findByPoeType(type)
+    
+    public List<PoeDetailDto> getByType(String type) {
+    	return poeRepository.getByPoeType(type)
     			.stream()
-    			.map(traineeEntity -> modelMapper.map(traineeEntity, TraineeDto.class))
+    			.map(poeEntity -> modelMapper.map(poeEntity, PoeDetailDto.class))
     			.toList();
-    		var poeDDto = modelMapper.map(optPoe.get(),PoeDetailDto.class);
-    		poeDDto.setTrainees(trainees);
-    		return Optional.of(poeDDto);
-    	}
-    	else {
-    		return Optional.empty();
-    	}
     }
 
         
@@ -134,4 +125,5 @@ public class PoeServiceJpa implements PoeService {
             throw (new UpdateException("Poe couldn't be deleted",e));
         }
     }
+
 }

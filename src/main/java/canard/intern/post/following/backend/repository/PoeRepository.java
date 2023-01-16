@@ -8,6 +8,7 @@ import canard.intern.post.following.backend.enums.PoeType;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import javax.persistence.Tuple;
 import java.time.LocalDate;
@@ -20,8 +21,8 @@ public interface PoeRepository extends JpaRepository<Poe,Integer> {
 
     List<Poe> findByTitle(String title);
     
-    @Query("SELECT p FROM Poe p WHERE p.poe_type = :type")
-    Optional<Poe> findByPoeType(PoeType type);
+    @Query(value = "SELECT * FROM poes p WHERE p.poe_type = :type", nativeQuery = true)
+    List<Poe> getByPoeType(@Param("type") String type);
 
     List<Poe> findByBeginDateBetween(LocalDate date1, LocalDate date2);
     List<Poe> findByBeginDateBetween(LocalDate date1, LocalDate date2, Sort sort);
@@ -45,7 +46,6 @@ public interface PoeRepository extends JpaRepository<Poe,Integer> {
             "GROUP BY p " +
             "ORDER BY traineeCount")
     List<Tuple> countTraineesByPoe();
-
     
 
 

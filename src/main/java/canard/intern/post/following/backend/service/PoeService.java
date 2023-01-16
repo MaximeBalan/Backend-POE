@@ -23,7 +23,7 @@ public interface PoeService {
      */
     Optional<PoeDetailDto> getById(int id);
     
-    Optional<PoeDetailDto> getByType(PoeType type);
+    List<PoeDetailDto> getByType(String type);
 
 
     List<PoeDto> getByTitle(String title);

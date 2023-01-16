@@ -14,7 +14,7 @@ public interface TraineeRepository extends JpaRepository<Trainee,Integer> {
     // https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
     List<Trainee> findByPoeId(int poeId);
     
-    Optional<Trainee> findByPoeType(PoeType type);
+//    Optional<Trainee> findByPoeType(String type);
 
     List<Trainee> findByLastnameIgnoreCase(String partialName);
 
