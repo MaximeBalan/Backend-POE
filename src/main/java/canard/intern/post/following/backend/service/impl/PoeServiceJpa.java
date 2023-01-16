@@ -2,8 +2,10 @@ package canard.intern.post.following.backend.service.impl;
 
 import canard.intern.post.following.backend.dto.PoeDetailDto;
 import canard.intern.post.following.backend.dto.PoeDto;
+import canard.intern.post.following.backend.dto.TraineeDetailDto;
 import canard.intern.post.following.backend.dto.TraineeDto;
 import canard.intern.post.following.backend.entity.Poe;
+import canard.intern.post.following.backend.enums.PoeType;
 import canard.intern.post.following.backend.error.UpdateException;
 import canard.intern.post.following.backend.repository.PoeRepository;
 import canard.intern.post.following.backend.repository.TraineeRepository;
@@ -55,6 +57,16 @@ public class PoeServiceJpa implements PoeService {
             return Optional.empty();
         }
     }
+    
+    
+    public List<PoeDetailDto> getByType(String type) {
+    	return poeRepository.getByPoeType(type)
+    			.stream()
+    			.map(poeEntity -> modelMapper.map(poeEntity, PoeDetailDto.class))
+    			.toList();
+    }
+
+        
     @Override
     public List<PoeDto> getByTitle(String title) {
         // TODO
@@ -113,4 +125,5 @@ public class PoeServiceJpa implements PoeService {
             throw (new UpdateException("Poe couldn't be deleted",e));
         }
     }
+
 }

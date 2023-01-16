@@ -1,7 +1,9 @@
 package canard.intern.post.following.backend.controller;
 import canard.intern.post.following.backend.dto.PoeDetailDto;
 import canard.intern.post.following.backend.dto.PoeDto;
+import canard.intern.post.following.backend.enums.PoeType;
 import canard.intern.post.following.backend.service.PoeService;
+import canard.intern.post.following.backend.service.impl.PoeServiceJpa;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +18,7 @@ import java.util.Objects;
 @RequestMapping("/api/poe")
 public class PoeController {
     @Autowired
-    private PoeService poeService;
+    private PoeServiceJpa poeService;
 
     /**
      * GET /api/poe
@@ -44,6 +46,17 @@ public class PoeController {
                     String.format("No poe found with id <%d>", id));
         }
         return optPoeDto.get();
+    }
+    
+    @GetMapping("/type/{type}")
+    public List<PoeDetailDto> getByPoeType(@PathVariable("type") String type){
+    	return poeService.getByType(type);
+//        var optPoeDto =  poeService.getByType(type);
+//        if (optPoeDto.isEmpty()) {
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+//                    String.format("No poe type found with type <%d>", type));
+//        }
+//        return optPoeDto;
     }
 
     @PostMapping
