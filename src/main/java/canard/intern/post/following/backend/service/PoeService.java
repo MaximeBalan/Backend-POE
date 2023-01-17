@@ -50,6 +50,8 @@ public interface PoeService {
     Optional<PoeDto> update(int id, PoeDto poeDto);
 
     /**
+     * find trainees of this poes
+     * then setPoe(null) for each one
      * delete poe with this id if exists
      * @param id id of poe to delete
      * @return true if deleted, false if not found

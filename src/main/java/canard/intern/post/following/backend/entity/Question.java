@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import canard.intern.post.following.backend.enums.QuestionType;
+
 import lombok.Getter;
 import lombok.Setter;
 

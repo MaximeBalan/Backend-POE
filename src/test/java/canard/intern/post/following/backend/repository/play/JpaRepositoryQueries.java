@@ -121,5 +121,18 @@ public class JpaRepositoryQueries {
         );
         displayCollection(poeSortedByTitleDate);
     }
+
     
+    @Test
+    void findSurvey() {
+    	surveyRepository.findById(2).ifPresent(survey->{
+    		System.out.println(survey);
+    		survey.getQuestions()
+    		.forEach(
+    				question-> 
+    				System.out.println(question));
+    	});
+    	
+    }
+
 }

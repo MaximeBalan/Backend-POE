@@ -19,6 +19,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/trainees")
+
 public class TraineeController {
 
     @Autowired
@@ -29,7 +30,7 @@ public class TraineeController {
      * @return all trainees
      */
     @GetMapping
-    public List<TraineeDto> getAll(){return traineeService.getAll();}
+    public List<TraineeDetailDto> getAll(){return traineeService.getAll();}
 
     /**
      * GET /api/trainees/{id}

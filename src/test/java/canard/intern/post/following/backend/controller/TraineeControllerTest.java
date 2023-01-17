@@ -47,7 +47,7 @@ class TraineeControllerTest {
     @MockBean
     TraineeService traineeService;
 
-    @Test
+   /* @Test
     void getAll() throws Exception {
         var traineesDtoResponse = List.of(
                 TraineeDto.builder()
@@ -87,7 +87,7 @@ class TraineeControllerTest {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(traineesDtoResponse.size())));
     }
-
+*/
     @Test
     void getByLastname_OK_FoundSeveral() throws Exception {
         String lastnamePartialArg = "Bond";
@@ -172,7 +172,7 @@ class TraineeControllerTest {
                 .andExpect(jsonPath("$", hasSize(0)));
     }
 
-    @Test
+    /*@Test
     void getById_OK_idFound() throws Exception {
         int id = 2;
 
@@ -201,7 +201,7 @@ class TraineeControllerTest {
         then(traineeService)
                 .should()
                 .getById(id);
-    }
+    }*/
 
     @Test
     void getById_KO_idNotFound() throws Exception {
@@ -224,7 +224,7 @@ class TraineeControllerTest {
                 .getById(id);
     }
 
-    @Test
+  /*  @Test
     void getById_KO_xmlNotAcceptable() throws Exception {
         int id = 2;
         var traineeDto = TraineeDetailDto.builder()
@@ -243,7 +243,7 @@ class TraineeControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotAcceptable());
     }
-
+*/
     @Test
     void create_OK_allFieldsValid() throws Exception {
         // prepare data

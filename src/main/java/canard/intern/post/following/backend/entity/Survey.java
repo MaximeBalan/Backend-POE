@@ -1,7 +1,6 @@
 package canard.intern.post.following.backend.entity;
 
 import java.util.*;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,4 +31,5 @@ public class Survey {
     joinColumns = @JoinColumn(name = "survey_id"), //FK to this class(Survey)
     inverseJoinColumns = @JoinColumn (name = "question_id")) //FK of the other class (Question)
     private Set<Question> questions = new HashSet<>();
+
 }

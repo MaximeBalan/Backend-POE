@@ -28,11 +28,11 @@ public class TraineeServiceJpa implements TraineeService {
     private PoeRepository poeRepository;
 
 
-    public List<TraineeDto> getAll() {
+    public List<TraineeDetailDto> getAll() {
 
         return traineeRepository.findAll()
                 .stream()
-                .map((t)->modelMapper.map(t,TraineeDto.class))
+                .map((t)->modelMapper.map(t,TraineeDetailDto.class))
                 .toList();
     }
 
@@ -81,7 +81,7 @@ public class TraineeServiceJpa implements TraineeService {
     @Override
     public Optional<TraineeDto> update(int id, TraineeDto traineeDto) {
         // in case traineeDto has no id
-        traineeDto.setId(id);
+        traineeDto.setId(id);;
         try {
             return traineeRepository.findById(id)
                     .map(te -> {

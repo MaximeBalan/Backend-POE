@@ -83,7 +83,7 @@ public class PoeController {
     public void delete(@PathVariable("id") int id){
         var optPoeDto = poeService.delete(id);
         if(!optPoeDto){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("No trainee found with id  <%d> ", id));
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("No POE found with id  <%d> ", id));
         }
     }
 }

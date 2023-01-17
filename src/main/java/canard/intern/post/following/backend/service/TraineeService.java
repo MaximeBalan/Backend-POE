@@ -13,7 +13,7 @@ public interface TraineeService {
      * get all trainees
      * @return trainees
      */
-    List<TraineeDto> getAll();
+    List<TraineeDetailDto> getAll();
 
     /**
      * get a trainee by its id if exists
@@ -66,4 +66,5 @@ public interface TraineeService {
      * else optional empty
      */
     Optional<TraineeDetailDto> setPoe(int idTrainee, int idPoe);
+  
 }

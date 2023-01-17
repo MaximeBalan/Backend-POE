@@ -1,13 +1,12 @@
 package canard.intern.post.following.backend.entity;
 
-import canard.intern.post.following.backend.enums.Gender;
+
 import canard.intern.post.following.backend.enums.PoeType;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
+
 
 //pour rédiger les tests
 @ToString
