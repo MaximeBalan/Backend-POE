@@ -81,7 +81,7 @@ public class TraineeServiceJpa implements TraineeService {
     @Override
     public Optional<TraineeDto> update(int id, TraineeDto traineeDto) {
         // in case traineeDto has no id
-        traineeDto.setId(id);
+        traineeDto.setId(id);;
         try {
             return traineeRepository.findById(id)
                     .map(te -> {
