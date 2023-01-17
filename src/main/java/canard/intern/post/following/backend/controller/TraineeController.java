@@ -30,7 +30,7 @@ public class TraineeController {
      * @return all trainees
      */
     @GetMapping
-    public List<TraineeDto> getAll(){return traineeService.getAll();}
+    public List<TraineeDetailDto> getAll(){return traineeService.getAll();}
 
     /**
      * GET /api/trainees/{id}

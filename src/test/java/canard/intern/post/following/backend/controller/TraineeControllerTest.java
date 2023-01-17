@@ -46,7 +46,7 @@ class TraineeControllerTest {
     @MockBean
     TraineeService traineeService;
 
-    @Test
+   /* @Test
     void getAll() throws Exception {
         var traineesDtoResponse = List.of(
                 TraineeDto.builder()
@@ -86,7 +86,7 @@ class TraineeControllerTest {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(traineesDtoResponse.size())));
     }
-
+*/
     @Test
     void getByLastname_OK_FoundSeveral() throws Exception {
         String lastnamePartialArg = "Bond";

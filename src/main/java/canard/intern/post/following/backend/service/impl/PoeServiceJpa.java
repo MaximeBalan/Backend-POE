@@ -110,12 +110,12 @@ public class PoeServiceJpa implements PoeService {
     public boolean delete(int id) {
         try {
             if (poeRepository.findById(id).isPresent()) {
+            	//find trainees of this poes
+            	//then setPoe(null) for each one
             	traineeRepository.findByPoeId(id)
             			.stream()
             			.forEach((t)->t.setPoe(null));
-            	poeRepository.flush();
-            	//find trainees of this poes
-            	//then setPoe(null) for each one
+            	poeRepository.flush(); //force la synchronisation avec la base de données
                 poeRepository.deleteById(id);
                 return true;
             } else {

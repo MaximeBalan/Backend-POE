@@ -2,6 +2,7 @@ package canard.intern.post.following.backend.repository.play;
 
 import canard.intern.post.following.backend.entity.Poe;
 import canard.intern.post.following.backend.repository.PoeRepository;
+import canard.intern.post.following.backend.repository.SurveyRepository;
 import canard.intern.post.following.backend.repository.TraineeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class JpaRepositoryQueries {
 
     @Autowired
     private PoeRepository poeRepository;
+    
+    @Autowired
+    private SurveyRepository surveyRepository;
 
     private static void displayCollection(Collection<?> collection) {
         for (var e:collection) {
@@ -118,4 +122,16 @@ public class JpaRepositoryQueries {
         displayCollection(poeSortedByTitleDate);
     }
 
+    
+    @Test
+    void findSurvey() {
+    	surveyRepository.findById(2).ifPresent(survey->{
+    		System.out.println(survey);
+    		survey.getQuestions()
+    		.forEach(
+    				question-> 
+    				System.out.println(question));
+    	});
+    	
+    }
 }

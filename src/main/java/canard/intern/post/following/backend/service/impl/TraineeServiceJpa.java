@@ -28,11 +28,11 @@ public class TraineeServiceJpa implements TraineeService {
     private PoeRepository poeRepository;
 
 
-    public List<TraineeDto> getAll() {
+    public List<TraineeDetailDto> getAll() {
 
         return traineeRepository.findAll()
                 .stream()
-                .map((t)->modelMapper.map(t,TraineeDto.class))
+                .map((t)->modelMapper.map(t,TraineeDetailDto.class))
                 .toList();
     }
 

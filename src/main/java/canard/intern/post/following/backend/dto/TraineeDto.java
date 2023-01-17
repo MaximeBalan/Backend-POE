@@ -36,4 +36,6 @@ public class TraineeDto {
     @NotNull
     @Email // or @Pattern
     private String email;
+    
+    private PoeDto poe;
 }
