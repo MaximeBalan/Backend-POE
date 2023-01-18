@@ -15,4 +15,6 @@ public interface QuestionRepository extends JpaRepository <Question, Integer>{
     @Query(value = "SELECT * FROM questions q WHERE q.question_type = :type", nativeQuery = true)
     List<Question> getByQuestionType(@Param("type") String type);
 
+//    @Query(value = "SELECT * FROM questions q WHERE q.choice_type = :type", nativeQuery = true)
+//    List<Question> findByChoiceId(int choices);
 }

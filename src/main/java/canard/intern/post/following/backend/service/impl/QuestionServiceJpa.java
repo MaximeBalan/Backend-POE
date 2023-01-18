@@ -14,11 +14,12 @@ import canard.intern.post.following.backend.service.TraineeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class QuestionServiceJpa implements QuestionService {
 
     @Autowired
@@ -26,9 +27,6 @@ public class QuestionServiceJpa implements QuestionService {
 
     @Autowired
     private ChoiceRepository choiceRepository;
-
-    @Autowired
-    private ChoiceService choiceService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -82,7 +80,6 @@ public class QuestionServiceJpa implements QuestionService {
         }catch(Exception e){
             throw (new UpdateException("question couldn't be saved",e));
         }
-
         return modelMapper.map(questionDb, QuestionDto.class);
     }
 
@@ -107,7 +104,7 @@ public class QuestionServiceJpa implements QuestionService {
     @Transactional
     @Override
     public boolean delete(int id) {
-        try{
+       try{
             if(questionRepository.findById(id).isPresent()){
                 choiceRepository.findByQuestionId(id)
                         .stream()
@@ -121,5 +118,6 @@ public class QuestionServiceJpa implements QuestionService {
         }catch(DataIntegrityViolationException e){// autres problèmes
             throw (new UpdateException("Poe couldn't be deleted",e));
         }
+
     }
 }

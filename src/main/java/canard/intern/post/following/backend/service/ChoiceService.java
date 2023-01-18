@@ -1,5 +1,6 @@
 package canard.intern.post.following.backend.service;
 
+import canard.intern.post.following.backend.dto.ChoiceDetailDto;
 import canard.intern.post.following.backend.dto.ChoiceDto;
 import canard.intern.post.following.backend.error.UpdateException;
 
@@ -20,12 +21,9 @@ public interface ChoiceService {
      * @return optional with choice found
      * or optional empty if not exists
      */
-    Optional<ChoiceDto> getById(int id); // TODO: <ChoiceDetailDto>
+    Optional<ChoiceDetailDto> getById(int id);
 
-    List<ChoiceDto> getByType(String type);// TODO: <ChoiceDetailDto>
-
-
-    List<ChoiceDto> getByTitle(String title);
+    List<ChoiceDto> getByName(String title);
 
 
     /**

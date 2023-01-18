@@ -22,6 +22,4 @@ public class QuestionDto {
     private String title;
     private QuestionType questionType;
 
-    public void get() {
-    }
 }
