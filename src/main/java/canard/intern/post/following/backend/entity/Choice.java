@@ -1,11 +1,6 @@
 package canard.intern.post.following.backend.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 import lombok.Getter;
@@ -22,5 +17,8 @@ public class Choice {
 
     @Column(length = 150, nullable = false)
     private String name;
+
+    @ManyToOne
+    private Choice choice;
 }
 
