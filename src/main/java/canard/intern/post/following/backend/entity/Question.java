@@ -1,5 +1,6 @@
 package canard.intern.post.following.backend.entity;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,12 +15,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import canard.intern.post.following.backend.enums.PoeType;
 import canard.intern.post.following.backend.enums.QuestionType;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-@Getter @Setter
+@ToString
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+//pour lombok
+@Getter
+@Setter
 @Entity
 @Table (name = "questions")
 public class Question {
