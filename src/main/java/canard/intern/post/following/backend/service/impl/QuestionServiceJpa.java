@@ -106,9 +106,9 @@ public class QuestionServiceJpa implements QuestionService {
     public boolean delete(int id) {
        try{
             if(questionRepository.findById(id).isPresent()){
-                choiceRepository.findByQuestionId(id)
-                        .stream()
-                        .forEach((c)-> c.setChoice(null));
+                //choiceRepository.findByQuestionId(id)
+                  //      .stream()
+                       // .forEach((c)-> c.setChoice(null)); // supprimer le choix
                 questionRepository.flush();
                 questionRepository.deleteById(id);
                 return true;
