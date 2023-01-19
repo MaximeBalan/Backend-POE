@@ -38,21 +38,21 @@ public class SurveyServiceJpa implements SurveyService {
                 .toList();
     }
 
-//    @Override
-//    public Optional<SurveyDetailDto> getById(int id) {
-//        var optSurvey = surveyRepository.findById(id);
-//        if(optSurvey.isPresent()){
-//            var questions = questionRepository.findBySurveyId(id)
-//                    .stream()
-//                    .map(questionEntity -> modelMapper.map(questionEntity, QuestionDto.class))
-//                    .toList();
-//            var surveyDDto = modelMapper.map(optSurvey.get(), SurveyDetailDto.class);
-//            surveyDDto.setQuestions(questions);
-//            return Optional.of(surveyDDto);
-//        } else {
-//            return Optional.empty();
-//        }
-//    }
+    @Override
+    public Optional<SurveyDetailDto> getById(int id) {
+        var optSurvey = surveyRepository.findById(id);
+        if(optSurvey.isPresent()){
+            var questions = questionRepository.findBySurveyId(id)
+                    .stream()
+                    .map(questionEntity -> modelMapper.map(questionEntity, QuestionDto.class))
+                    .toList();
+            var surveyDDto = modelMapper.map(optSurvey.get(), SurveyDetailDto.class);
+            surveyDDto.setQuestions(questions);
+            return Optional.of(surveyDDto);
+        } else {
+            return Optional.empty();
+        }
+    }
 
     @Override
     public SurveyDto create(SurveyDto surveyDto) {
@@ -64,5 +64,23 @@ public class SurveyServiceJpa implements SurveyService {
         }
         return modelMapper.map(surveyDb, SurveyDto.class);
     }
+
+	@Override
+	public List<SurveyDto> getByTitle(String title) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<SurveyDto> update(int id, SurveyDto surveyDto) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
+	@Override
+	public boolean delete(int id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
