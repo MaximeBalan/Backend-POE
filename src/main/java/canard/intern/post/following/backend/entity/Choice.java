@@ -30,5 +30,7 @@ public class Choice {
     @Column(length = 150, nullable = false)
     private String name;
     
+
+    
 }
 

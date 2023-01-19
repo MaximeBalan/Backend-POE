@@ -13,10 +13,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Data
 public class ChoiceDto {
-
-
     private Integer id;
-    private String title;
+    private String name;
 
 
 }

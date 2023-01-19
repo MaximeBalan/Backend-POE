@@ -1,5 +1,7 @@
 package canard.intern.post.following.backend.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,5 +15,5 @@ import lombok.experimental.SuperBuilder;
 @Setter
 public class ChoiceDetailDto extends ChoiceDto{
 
-    private QuestionDto questionDto;
+    private QuestionDto question;
 }

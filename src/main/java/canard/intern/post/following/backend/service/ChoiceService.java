@@ -21,7 +21,7 @@ public interface ChoiceService {
      * @return optional with choice found
      * or optional empty if not exists
      */
-    Optional<ChoiceDetailDto> getById(int id);
+    Optional<ChoiceDto> getById(int id);
 
     List<ChoiceDto> getByName(String title);
 
