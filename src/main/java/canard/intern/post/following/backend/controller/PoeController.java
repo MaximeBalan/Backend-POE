@@ -1,15 +1,11 @@
 package canard.intern.post.following.backend.controller;
 import canard.intern.post.following.backend.dto.PoeDetailDto;
 import canard.intern.post.following.backend.dto.PoeDto;
-import canard.intern.post.following.backend.enums.PoeType;
-import canard.intern.post.following.backend.service.PoeService;
 import canard.intern.post.following.backend.service.impl.PoeServiceJpa;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
