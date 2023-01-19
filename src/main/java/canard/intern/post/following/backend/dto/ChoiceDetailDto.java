@@ -1,5 +1,3 @@
-
-
 package canard.intern.post.following.backend.dto;
 
 import lombok.AllArgsConstructor;
