@@ -16,6 +16,6 @@ import java.util.List;
 @Setter
 public class SurveyDetailDto extends SurveyDto{
 
-    private List<QuestionDto> questions;
+    private List<QuestionDetailDto> questions;
 
 }

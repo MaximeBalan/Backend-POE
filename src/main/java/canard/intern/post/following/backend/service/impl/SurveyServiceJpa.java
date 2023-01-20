@@ -43,12 +43,12 @@ public class SurveyServiceJpa implements SurveyService {
     public Optional<SurveyDetailDto> getById(int id) {
         var optSurvey = surveyRepository.findById(id);
         if(optSurvey.isPresent()){
-            var questions = questionRepository.findBySurveyId(id)
-                    .stream()
-                    .map(questionEntity -> modelMapper.map(questionEntity, QuestionDto.class))
-                    .toList();
+//            var questions = questionRepository.findBySurveyId(id)
+//                    .stream()
+//                    .map(questionEntity -> modelMapper.map(questionEntity, QuestionDto.class))
+//                    .toList();
             var surveyDDto = modelMapper.map(optSurvey.get(), SurveyDetailDto.class);
-            surveyDDto.setQuestions(questions);
+//            surveyDDto.setQuestions(questions);
             return Optional.of(surveyDDto);
         } else {
             return Optional.empty();
@@ -56,14 +56,14 @@ public class SurveyServiceJpa implements SurveyService {
     }
 
     @Override
-    public SurveyDto create(SurveyDto surveyDto) {
+    public SurveyDetailDto create(SurveyDetailDto surveyDetailDto) {
         Survey surveyDb;
         try {
-            surveyDb= surveyRepository.save(modelMapper.map(surveyDto, Survey.class));
+            surveyDb= surveyRepository.save(modelMapper.map(surveyDetailDto, Survey.class));
         }catch(Exception e){
             throw (new UpdateException("survey couldn't be saved",e));
         }
-        return modelMapper.map(surveyDb, SurveyDto.class);
+        return modelMapper.map(surveyDb, SurveyDetailDto.class);
     }
 
 	@Override

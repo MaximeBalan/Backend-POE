@@ -30,7 +30,7 @@ public interface SurveyService {
      * @return survey created with its id
      * @throws UpdateException if survey cannot be created
      */
-    SurveyDto create(SurveyDto surveyDto);
+    SurveyDto create(SurveyDetailDto surveyDetailDto);
     
     /**
      * update a survey with this id if exists ;

@@ -38,8 +38,8 @@ public class SurveyController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SurveyDto create(@Valid @RequestBody SurveyDto surveyDto) {
-        return surveyService.create(surveyDto);
+    public SurveyDetailDto create(@Valid @RequestBody SurveyDetailDto surveyDetailDto) {
+        return surveyService.create(surveyDetailDto);
     }
     
     @PutMapping("/{id}")
