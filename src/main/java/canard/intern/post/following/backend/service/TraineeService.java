@@ -37,7 +37,7 @@ public interface TraineeService {
      * @return trainee created with its id
      * @throws UpdateException if trainee cannot be created
      */
-    TraineeDto create(TraineeDto traineeDto);
+    TraineeDto create(TraineeDetailDto traineeDto);
 
     /**
      * update a trainee with this id if exists ;

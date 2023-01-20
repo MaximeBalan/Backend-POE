@@ -64,7 +64,7 @@ public class TraineeServiceJpa implements TraineeService {
     }
 
     @Override
-    public TraineeDto create(TraineeDto traineeDto) {
+    public TraineeDto create(TraineeDetailDto traineeDto) {
         // transformer traineeDto en trainee (grace au modelMapper)
         // le sauver dans la base de donnée grace au traineeRepository.save
         // récupérer le trainee renvoyé par traineeRepository.save et le convertir en TraineeDto
@@ -75,7 +75,7 @@ public class TraineeServiceJpa implements TraineeService {
             throw (new UpdateException("trainee couldn't be saved",e));
         }
 
-        return modelMapper.map(traineeDb, TraineeDto.class);
+        return modelMapper.map(traineeDb, TraineeDetailDto.class);
     }
 
     @Override
