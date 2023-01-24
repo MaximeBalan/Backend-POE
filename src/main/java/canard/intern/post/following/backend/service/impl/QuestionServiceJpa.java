@@ -76,14 +76,14 @@ public class QuestionServiceJpa implements QuestionService {
     }
 
     @Override
-    public QuestionDto create(QuestionDto questionDto) {
+    public QuestionDto create(QuestionDetailDto questionDto) {
         Question questionDb;
         try {
             questionDb= questionRepository.save(modelMapper.map(questionDto, Question.class));
         }catch(Exception e){
             throw (new UpdateException("question couldn't be saved",e));
         }
-        return modelMapper.map(questionDb, QuestionDto.class);
+        return modelMapper.map(questionDb, QuestionDetailDto.class);
     }
 
 

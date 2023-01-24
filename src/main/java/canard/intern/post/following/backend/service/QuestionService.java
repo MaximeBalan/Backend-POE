@@ -48,7 +48,7 @@ public interface QuestionService {
      * @return question created with its id
      * @throws UpdateException if question cannot be created
      */
-    QuestionDto create(QuestionDto questionDto);
+    QuestionDto create(QuestionDetailDto questionDto);
 
     /**
      * update a question with this id if exists ;

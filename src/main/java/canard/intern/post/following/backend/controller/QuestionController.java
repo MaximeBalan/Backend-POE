@@ -48,7 +48,7 @@ public class QuestionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public QuestionDto create(@Valid @RequestBody QuestionDto questionDto) {
+    public QuestionDto create(@Valid @RequestBody QuestionDetailDto questionDto) {
         return questionService.create(questionDto);
     }
 
