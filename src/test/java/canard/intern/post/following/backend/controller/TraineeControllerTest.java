@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.util.NestedServletException;
@@ -34,8 +35,10 @@ import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 @WebMvcTest(controllers = TraineeController.class)
+@WithMockUser
 class TraineeControllerTest {
 
     final static String BASE_URL = "/api/trainees";
@@ -271,6 +274,7 @@ class TraineeControllerTest {
 
         // call controller with mock http client
         mockMvc.perform(post(BASE_URL)
+        				.with(csrf())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(traineeJsonRequest)
@@ -302,6 +306,7 @@ class TraineeControllerTest {
                 .willReturn(traineeDtoResponse);
 
         mockMvc.perform(post(BASE_URL)
+        				.with(csrf())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(traineeJson)
@@ -321,6 +326,7 @@ class TraineeControllerTest {
     void create_KO_invalidBirthdate() throws Exception {
         var traineeJson = TraineeJsonProvider.traineeJsonInvalidBirthdateAgeLessThan18();
         mockMvc.perform(post(BASE_URL)
+        				.with(csrf())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(traineeJson)
@@ -334,6 +340,7 @@ class TraineeControllerTest {
     @MethodSource("canard.intern.post.following.backend.controller.fixture.TraineeJsonProvider#traineeJsonInvalid")
     void create_KO_invalidPayload(String traineeJson) throws Exception {
         mockMvc.perform(post(BASE_URL)
+        				.with(csrf())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(traineeJson)
@@ -351,16 +358,17 @@ class TraineeControllerTest {
         var traineeJson =  TraineeJsonProvider.traineeJsonAllFieldsValid();
 
         // call
-        var ex = assertThrows(NestedServletException.class, () ->
+      
             mockMvc.perform(post(BASE_URL)
+            				.with(csrf())
                             .accept(MediaType.APPLICATION_JSON)
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(traineeJson)
-                    )
-        );
-
-        assertEquals(UpdateException.class, ex.getCause().getClass());
-
+                            )
+                            .andDo(print())
+                            .andExpect(status().isIAmATeapot());
+                    
+      
         // check mock service has been called
         then(traineeService)
                 .should()
@@ -395,6 +403,7 @@ class TraineeControllerTest {
 
         // call controller
         mockMvc.perform(put(URL_TEMPLATE_ID, id)
+        				.with(csrf())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(traineeJsonRequest)
@@ -422,6 +431,7 @@ class TraineeControllerTest {
         //      . invalid field(s)
         int id = 12345;
         mockMvc.perform(put(URL_TEMPLATE_ID, id)
+        				.with(csrf())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(traineeJson)
@@ -435,6 +445,7 @@ class TraineeControllerTest {
         int id = 54321;
         String traineeJson = TraineeJsonProvider.traineeJsonValidWithId12345();
         mockMvc.perform(put(URL_TEMPLATE_ID, id)
+        				.with(csrf())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(traineeJson)
@@ -455,6 +466,7 @@ class TraineeControllerTest {
 
         // call controller
         mockMvc.perform(put(URL_TEMPLATE_ID, id)
+        				.with(csrf())
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(traineeJsonRequest)
@@ -476,7 +488,8 @@ class TraineeControllerTest {
         given(traineeService.delete(id))
                 .willReturn(true);
 
-        mockMvc.perform(delete(URL_TEMPLATE_ID, id))
+        mockMvc.perform(delete(URL_TEMPLATE_ID, id).with(csrf()))
+        		
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
@@ -492,7 +505,8 @@ class TraineeControllerTest {
         given(traineeService.delete(id))
                 .willReturn(false);
 
-        mockMvc.perform(delete(URL_TEMPLATE_ID, id))
+        mockMvc.perform(delete(URL_TEMPLATE_ID, id).with(csrf())
+)
                 .andDo(print())
                 .andExpect(status().isNotFound());
 

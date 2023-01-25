@@ -19,6 +19,8 @@ public class BasicAuthenticationConfig {
 	  @Bean
 	  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		  return  http
+			.cors()
+			.and()
 			.csrf()
 			.disable()
 			.authorizeRequests()
