@@ -15,6 +15,8 @@ import canard.intern.post.following.backend.service.TraineeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +38,9 @@ public class PoeServiceJpa implements PoeService {
     
     @Autowired
     private TraineeService traineeService;
+
+    @Autowired
+    private JavaMailSender emailSender;
 
 
     @Override
@@ -138,4 +143,20 @@ public class PoeServiceJpa implements PoeService {
         }
     }
 
+    @Override
+    public void sendSurveyMailTrainee(int idP, int idS) {
+
+        // recuperer la liste des stagiaires d'une poe via FinById
+        Optional<PoeDetailDto> poeDetailDto = getById(idP);
+
+// faire envoi de smails a tous ces stagiaires en donnant le lien d'acces avec Id du formulaire
+        for (TraineeDto trainee : poeDetailDto.get().getTrainees()) {
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("formateur.poe.aelion@gmail.com");
+            message.setTo(trainee.getEmail());
+            message.setSubject("Suivi des stagiaires Aelion");
+            message.setText("http://localhost:4200/survey/detail/"+idS);
+            emailSender.send(message);
+        }
+    }
 }

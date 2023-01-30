@@ -38,6 +38,16 @@ public class Poe {
     @Column(name= "poe_type",length = 10, nullable = false)
      private PoeType type;
 
+    @Column(name= "survey_one_month_date")
+    private LocalDate surveySendDateOneMonth;
+
+    @Column(name= "survey_six_month_date")
+    private LocalDate surveySendDateSixMonth;
+
+    @Column(name= "survey_twelve_month_date")
+    private LocalDate surveySendDateTwelveMonth;
+
+
     //@OneToMany
     //private Set<Trainee> trainees;
 }

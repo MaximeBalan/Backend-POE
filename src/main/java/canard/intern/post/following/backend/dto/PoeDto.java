@@ -19,4 +19,7 @@ public class PoeDto {
     private PoeType poeType;
     private LocalDate beginDate;
     private LocalDate endDate;
+    private LocalDate surveySendDateOneMonth;
+    private LocalDate surveySendDateSixMonth;
+    private LocalDate surveySendDateTwelveMonth;
 }

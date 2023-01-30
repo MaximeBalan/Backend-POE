@@ -43,6 +43,10 @@ public class PoeController {
         }
         return optPoeDto.get();
     }
+    @GetMapping("/{idP}/mail/{idS}")
+    public void sendSurveyMailTrainee(@PathVariable("idP") int idP, @PathVariable("idS") int idS) {
+        poeService.sendSurveyMailTrainee(idP,idS);
+    }
     
     @GetMapping("/type/{type}")
     public List<PoeDetailDto> getByPoeType(@PathVariable("type") String type){

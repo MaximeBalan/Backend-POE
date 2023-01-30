@@ -59,4 +59,5 @@ public interface PoeService {
      */
     boolean delete(int id);
 
+    void sendSurveyMailTrainee(int idP, int idS);
 }
