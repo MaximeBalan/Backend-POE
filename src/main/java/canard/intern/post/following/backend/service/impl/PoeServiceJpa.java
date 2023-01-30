@@ -20,6 +20,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
 import java.util.List;
 import java.util.Optional;
 
@@ -158,5 +160,26 @@ public class PoeServiceJpa implements PoeService {
             message.setText("http://localhost:4200/survey/detail/"+idS);
             emailSender.send(message);
         }
+
+        //creer une var a initialiser a la date du jour
+        LocalDate dateDuJour = java.time.LocalDate.now();
+
+        if(poeDetailDto.isPresent()) {
+            PoeDetailDto poe = poeDetailDto.get();
+            if (idS==1) {
+                poeDetailDto.get().setSurveySendDateOneMonth(dateDuJour);
+                //poeRepository.saveSendingFormDateOneMonth(dateDuJour, idP);
+            }
+            if (idS==2) {
+                poeDetailDto.get().setSurveySendDateSixMonth(dateDuJour);
+                //poeRepository.saveSendingFormDateSixMonth(dateDuJour, idP);
+            }
+            if (idS==3) {
+                poeDetailDto.get().setSurveySendDateTwelveMonth(dateDuJour);
+                //poeRepository.saveSendingFormDateTwelveMonth(dateDuJour, idP);
+            }
+            update(idP, poe);
+        }
+
     }
 }

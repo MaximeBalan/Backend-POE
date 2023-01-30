@@ -7,8 +7,10 @@ import canard.intern.post.following.backend.enums.PoeType;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Tuple;
 import java.time.LocalDate;
@@ -46,7 +48,28 @@ public interface PoeRepository extends JpaRepository<Poe,Integer> {
             "GROUP BY p " +
             "ORDER BY traineeCount")
     List<Tuple> countTraineesByPoe();
-    
 
+    @Transactional
+    @Modifying
+    @Query(" UPDATE Poe" +
+            " SET survey_one_month_date= :date" +
+            " WHERE id= :id "
+            )
+    int saveSendingFormDateOneMonth(@Param("date") LocalDate date, @Param("id") Integer id);
 
+    @Transactional
+    @Modifying
+    @Query(" UPDATE Poe" +
+            " SET survey_six_month_date= :date" +
+            " WHERE id= :id "
+    )
+    int saveSendingFormDateSixMonth(@Param("date") LocalDate date, @Param("id") Integer id);
+
+    @Transactional
+    @Modifying
+    @Query(" UPDATE Poe" +
+            " SET survey_twelve_month_date= :date" +
+            " WHERE id= :id "
+    )
+    int saveSendingFormDateTwelveMonth(@Param("date") LocalDate date, @Param("id") Integer id);
 }
