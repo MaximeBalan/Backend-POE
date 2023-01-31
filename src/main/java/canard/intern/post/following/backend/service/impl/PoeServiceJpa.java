@@ -20,10 +20,13 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.mail.javamail.MimeMessageHelper;
 
 
 @Service
@@ -42,7 +45,11 @@ public class PoeServiceJpa implements PoeService {
     private TraineeService traineeService;
 
     @Autowired
-    private JavaMailSender emailSender;
+    private JavaMailSender mailSender;
+
+    @Autowired
+    public SimpleMailMessage template;
+
 
 
     @Override
@@ -153,13 +160,41 @@ public class PoeServiceJpa implements PoeService {
 
 // faire envoi de smails a tous ces stagiaires en donnant le lien d'acces avec Id du formulaire
         for (TraineeDto trainee : poeDetailDto.get().getTrainees()) {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("formateur.poe.aelion@gmail.com");
-            message.setTo(trainee.getEmail());
-            message.setSubject("Suivi des stagiaires Aelion");
-            message.setText("http://localhost:4200/survey/detail/"+idS);
-            emailSender.send(message);
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+            String htmlMsg = "<h4>Bonjour cher stagiaire,</h4>" +
+                    "<p>Suite à la formation que tu as faite à nos côtés chez Aelion, j'aimerais prendre de tes nouvelles.<br>" +
+                    "    Nos merveilleux stagiaires de la POEC Java FullStack 2022-2023 ont à ce but élaboré 3 formulaires de suivi que<br> " +
+                    "     je t'enverrai pour te suivre au mieux et nous permettre de perfectionner nos formations.<br>" +
+                    "     Voici le premier :<br>" +
+                    "</p>" +
+                    "<p>" +
+                    "http://localhost:4200/survey/detail/"+idS +
+                    "</p>" +
+                    "<p>" +
+                    "    Belle continuation à toi et à bientôt ! " +
+                    "</p>" +
+                    "<p>" +
+                    "    Jean-Luc " +
+                    "</p>";
+            try {
+                mimeMessage.setContent(htmlMsg, "text/html");
+                helper.setTo(trainee.getEmail());
+                helper.setFrom("formateur.poe.aelion@gmail.com");
+                helper.setSubject("Suivi des stagiaires Aelion");
+                mailSender.send(mimeMessage);
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
+            }
+
+//            message.setText("http://localhost:4200/survey/detail/"+idS);
+//            emailSender.send(message);
         }
+
+//// /** Use this or below line **/
+//        helper.setText(htmlMsg, true); // Use this or above line.
+
+
 
         //creer une var a initialiser a la date du jour
         LocalDate dateDuJour = java.time.LocalDate.now();
