@@ -57,13 +57,13 @@ public class SurveyServiceJpa implements SurveyService {
 
     @Override
     public SurveyDetailDto create(SurveyDetailDto surveyDetailDto) {
-        Survey surveyDb;
         try {
-            surveyDb= surveyRepository.save(modelMapper.map(surveyDetailDto, Survey.class));
+        	Survey surveyDb= surveyRepository.save(modelMapper.map(surveyDetailDto, Survey.class));
+            return modelMapper.map(surveyDb, SurveyDetailDto.class);
         }catch(Exception e){
             throw (new UpdateException("survey couldn't be saved",e));
         }
-        return modelMapper.map(surveyDb, SurveyDetailDto.class);
+    
     }
 
 	@Override
