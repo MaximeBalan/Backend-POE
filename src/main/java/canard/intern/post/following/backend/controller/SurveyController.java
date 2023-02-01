@@ -38,7 +38,7 @@ public class SurveyController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SurveyDetailDto create(@Valid @RequestBody SurveyDetailDto surveyDetailDto) {
+    public SurveyDetailDto create( @RequestBody SurveyDetailDto surveyDetailDto) {
         return surveyService.create(surveyDetailDto);
     }
     

@@ -1,5 +1,7 @@
 package canard.intern.post.following.backend.dto;
 
+import javax.validation.constraints.NotBlank;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,5 +15,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 public class SurveyDto {
     private Integer id;
+    
+    @NotBlank
     private String title;
 }
